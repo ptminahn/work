@@ -1,0 +1,9 @@
+# Số liệu nội bộ và hồ sơ case – KHÔNG đẩy lên GitHub (repo public)
+departments/cbrand-mkt/du-lieu/*
+!departments/cbrand-mkt/du-lieu/.gitkeep
+departments/cbrand-mkt/cases/*
+!departments/cbrand-mkt/cases/.gitkeep
+
+# File sinh ra bởi scripts/router.py
+scripts/tasks.json
+scripts/routing_log.json
