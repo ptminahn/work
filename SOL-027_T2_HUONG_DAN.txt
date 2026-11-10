@@ -1,0 +1,147 @@
+solomi · Hướng dẫn từ số 0 · Tập 2/7
+CÀI CLAUDE, TẠO PHÒNG BAN VÀ NỐI CÔNG CỤ CHO ĐỘI AI
+Bản chữ để copy — đi kèm file PDF cùng tên.
+
+====================================================================
+CẦN CHUẨN BỊ
+====================================================================
+- Một máy tính Windows hoặc Mac. Không cần biết code. Khoảng 15–20 phút.
+- Một tài khoản Claude gói Pro trở lên. Claude Code có ở gói Pro, Max, Team,
+  Enterprise; gói Free chỉ chat, không có Claude Code.
+  Gói Pro: 20 USD/tháng, hoặc 17 USD/tháng nếu trả theo năm
+  (theo claude.com/pricing, xem ngày 23/10/2026 — giá có thể đổi).
+- Tài khoản Gmail / Notion nếu muốn làm bước nối công cụ.
+
+Làm xong, mọi người có:
+[ ] App Claude trên máy, mở được chế độ Claude Code
+[ ] Một thư mục "phòng ban" cho đội AI, có thư mục lớn agents chia sẵn 3 nhân viên AI + 1 file giải thích
+[ ] Gmail (hoặc Notion, Google Drive…) đã nối với Claude
+[ ] Biết cách kiểm Claude đang làm việc ở đâu và dùng được công cụ gì
+
+====================================================================
+BA THỨ CẦN NHỚ
+====================================================================
+- Phòng ban = một thư mục trên máy
+- Nhân viên = mỗi agent làm đúng một việc
+- Nội quy  = file luật AI đọc đầu mỗi phiên (Tập 3)
+
+Chatbot: mình hỏi, nó trả lời, xong là thôi.
+Agent: nhận một việc, tự làm nhiều bước, để lại kết quả thành file cho mình xem.
+Claude Code: Claude làm việc ngay trong một thư mục trên máy mình — đọc file,
+  viết file, chạy công cụ. Mình nói tiếng Việt bình thường.
+MCP / Connectors: cách để Claude nối vào công cụ khác như Gmail, Notion,
+  Google Drive. Trong app Claude, chỗ bấm để nối gọi là Connectors.
+
+Tên nút lấy từ app lúc quay (10/2026); app cập nhật có thể đổi chữ một chút.
+
+====================================================================
+BƯỚC 1 — Tải app Claude
+====================================================================
+Mở trình duyệt, tìm "Claude for desktop", vào trang tải chính thức:
+  claude.com/download  →  Windows · Download   (hoặc macOS · Download)
+Chỉ tải từ trang của Claude.
+
+====================================================================
+BƯỚC 2 — Cài, đăng nhập, mở app
+====================================================================
+Mở file vừa tải, cài như phần mềm bình thường. Đăng nhập tài khoản Claude
+(gói Pro trở lên), rồi mở app từ thanh taskbar (Windows) hoặc Dock (Mac).
+
+====================================================================
+BƯỚC 3 — Chuyển sang Claude Code
+====================================================================
+Chat  →  bấm nút Code (góc trên bên trái)
+Bạn sẽ thấy: giao diện Claude Code, ô chat ở giữa, dưới ô chat có chữ
+"This computer".
+
+====================================================================
+BƯỚC 4 — Tạo phòng ban (một thư mục mới)
+====================================================================
+Choose → Open folder → chuột phải · New · Folder → đặt tên → Select Folder → Trust workspace
+
+- Dưới ô chat, cạnh chữ "This computer", bấm Choose rồi chọn Open folder.
+- Chọn chỗ hay lưu tài liệu (vd Documents). Chuột phải → New → Folder.
+- Đặt tên KHÔNG DẤU, KHÔNG DẤU CÁCH, ví dụ:
+
+marketing_ai_agent_team
+
+- Chọn thư mục đó, bấm Select Folder. App hỏi có tin thư mục này không
+  → bấm Trust workspace.
+
+====================================================================
+BƯỚC 5 — Kiểm tra Claude đang làm việc ở đâu
+====================================================================
+Câu lệnh (chép nguyên):
+
+Bạn đang làm việc trong thư mục nào? Trong đó đang có gì?
+
+Bạn sẽ thấy: Claude trả lời đúng tên thư mục vừa tạo và báo thư mục đang trống.
+Nếu nó báo thư mục khác → làm lại bước 4.
+
+====================================================================
+BƯỚC 6 — Chia nhân viên cho phòng ban
+====================================================================
+Câu lệnh (chép nguyên):
+
+Hãy dựng khung cho đội AI làm marketing của tôi ngay trong thư mục này. Tạo một thư mục lớn tên agents. Bên trong agents tạo 3 thư mục con, mỗi thư mục là một nhân viên AI: research (nghiên cứu khách hàng, đối thủ, xu hướng), content (viết bài, kịch bản), reports (số liệu, bài nào hiệu quả). Ở ngoài cùng tạo một file README.md viết bằng tiếng Việt dễ hiểu, giải thích mỗi thư mục dùng để làm gì. Chưa tạo nội quy hay hướng dẫn cho từng nhân viên. Làm xong thì vẽ lại cây thư mục cho tôi xem.
+
+Bạn sẽ thấy (lần chạy thử 24/10/2026):
+
+marketing_ai_agent_team/
+├── README.md         ← file giải thích
+└── agents/           ← thư mục lớn: cả đội AI
+    ├── research/     ← nhân viên Nghiên cứu
+    ├── content/      ← nhân viên Nội dung
+    └── reports/      ← nhân viên Báo cáo
+
+Câu chữ trong README mỗi lần có thể khác — chỉ cần có thư mục agents chứa 3 nhân viên và 1 file README.
+
+====================================================================
+BƯỚC 7 — Nối một công cụ qua Connectors
+====================================================================
+dấu + ở ô chat → Connectors → Manage connectors → + cạnh Gmail
+→ chọn tài khoản Google → đọc quyền · Continue → Connected
+
+- Ở Manage connectors có sẵn Gmail, Notion, Google Drive, Canva…
+- ĐỌC KỸ nó xin những quyền gì, đồng ý thì bấm Continue.
+- Hiện chữ Connected là xong; quay lại app, Gmail có dấu tích.
+- Notion, Google Drive, Canva… làm y như vậy.
+
+====================================================================
+BƯỚC 8 — Hỏi thử xem Claude dùng được gì
+====================================================================
+Câu lệnh (chép nguyên):
+
+Bạn đang kết nối được những công cụ nào? Với mỗi công cụ, liệt kê ngắn những việc bạn làm được trong đó.
+
+Bạn sẽ thấy: tên các công cụ đã nối và danh sách việc nó làm được trong từng
+công cụ (số lượng tuỳ phiên bản app).
+
+Thử Gmail an toàn, chỉ đọc — câu lệnh (chép nguyên):
+
+Đọc 5 email mới nhất trong Gmail của tôi và tóm tắt mỗi email một dòng. Không trả lời, không xoá, không gửi gì.
+
+LƯU Ý AN TOÀN: nối Gmail là Claude đọc được thư của mình. Ở Tập 3 mình ghi vào
+nội quy: không tự gửi, không tự xoá, không trả lời khi chưa hỏi mình. Trước khi
+có nội quy, câu lệnh nào liên quan Gmail cũng tự ghi rõ "không gửi, không xoá".
+
+====================================================================
+LỖI HAY GẶP
+====================================================================
+- Không thấy nút Code → kiểm gói (Pro trở lên), cập nhật app rồi mở lại.
+- Claude báo sai thư mục ở bước 5 → Choose → Open folder chọn lại, hỏi lại.
+- Bấm Select mà không có gì xảy ra → bấm chọn (tô sáng) thư mục trước.
+- Claude tạo thư mục ở chỗ khác → đang mở nhầm thư mục, làm lại bước 4–5.
+- Không thấy Gmail / Notion trong Connectors → dùng ô tìm kiếm trong
+  Manage connectors.
+- Nối xong mà Claude bảo không dùng được → mở phiên chat mới trong cùng thư
+  mục rồi hỏi lại câu bước 8.
+
+AI CÓ THỂ SAI Ở ĐÂU, BẠN KIỂM CHỖ NÀO
+- Thư mục: luôn hỏi câu bước 5 trước khi giao việc.
+- Cây thư mục: mở thư mục trên máy ra xem tận mắt.
+- Công cụ đã nối: thử một câu chỉ đọc (bước 8) để chắc nó dùng được thật.
+
+Tập 3: viết nội quy cho cả đội — Claude sẽ phỏng vấn mọi người từng câu để tự viết.
+
+— solomi · @_solouniverse

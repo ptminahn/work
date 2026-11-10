@@ -1,0 +1,18 @@
+# =============================================================
+# Yêu cầu gói cho hệ thống Multi-Agent Marketing AI
+# Di Động Việt - C-Brand (Xiaomi, OPPO, Huawei)
+# =============================================================
+
+# rich: Thư viện hiển thị bảng, màu sắc, progress bar đẹp trên terminal
+# (Tùy chọn - các script vẫn hoạt động bình thường nếu không cài)
+rich>=13.0.0
+
+# Lưu ý: Các script chủ yếu sử dụng thư viện chuẩn của Python:
+# - json: Đọc/ghi file JSON
+# - os, pathlib: Quản lý đường dẫn file/thư mục
+# - datetime: Xử lý ngày giờ
+# - re: Biểu thức chính quy cho routing
+# - sys: Tham số dòng lệnh
+# - argparse: Phân tích tham số CLI
+# - textwrap: Căn chỉnh văn bản
+# - uuid: Tạo ID duy nhất cho task
