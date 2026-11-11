@@ -377,7 +377,10 @@
         </div>
 
         <div class="hud-controls-top">
-            <button class="hud-btn" id="btn-trigger-task" onclick="loadStatus(true)">
+            <button class="hud-btn" id="btn-trigger-task" onclick="replayCase()">
+                <i class="fa-solid fa-play"></i> Mô Phỏng Case
+            </button>
+            <button class="hud-btn" onclick="loadStatus(true)">
                 <i class="fa-solid fa-rotate"></i> Tải Lại Trạng Thái
             </button>
             <button class="hud-btn active" id="btn-auto-rotate" onclick="toggleAutoRotate()">
@@ -837,7 +840,7 @@
                 if (progress >= 1) clearInterval(anim);
             }, 16);
 
-            addLog(targetAgent.code, `Minahn vừa chuyển góc nhìn tập trung vào [${targetAgent.name}].`);
+            if (!replaying) addLog(targetAgent.code, `Minahn vừa chuyển góc nhìn tập trung vào [${targetAgent.name}].`);
         }
 
         function resetCamera() {
@@ -862,6 +865,7 @@
         const STATUS_LABEL = { working: 'ĐANG CHẠY', reviewing: 'ĐANG SOÁT LỖI', waiting: 'CHỜ MINAHN', standby: 'CHỜ MỞ', idle: 'RẢNH' };
 
         async function loadStatus(manual) {
+            if (replaying) return;
             const sync = document.getElementById('syncState');
             try {
                 const res = await fetch('dashboard/status.json?ts=' + Date.now(), { cache: 'no-store' });
@@ -895,6 +899,46 @@
                 sync.style.color = 'var(--accent-amber)';
                 if (manual) addLog('/cb-mkt', 'Không đọc được dashboard/status.json (' + err.message + ').');
             }
+        }
+
+        // Mô phỏng: phát lại từng bước của case thật trong status.json, có hiệu ứng 3D
+        let replaying = false;
+        const AGENT_TO_ROOM = { '/cb-mkt': 'coordinator', 'cb-research': 'research', 'cb-review': 'review', 'cb-sku': 'sku', 'cb-strategy': 'strategy', 'cb-plan': 'plan' };
+
+        async function replayCase() {
+            if (replaying) return;
+            if (!lastStatus) await loadStatus(true);
+            const events = (lastStatus && lastStatus.events) || [];
+            if (!events.length) return;
+            replaying = true;
+            const btn = document.getElementById('btn-trigger-task');
+            btn.classList.add('active');
+            btn.innerHTML = '<i class="fa-solid fa-circle-play"></i> Đang Mô Phỏng…';
+            const sync = document.getElementById('syncState');
+            sync.innerText = '● MÔ PHỎNG (phát lại case thật)';
+            sync.style.color = 'var(--accent-cyan)';
+            document.getElementById('logList').innerHTML = '';
+            const saved = {};
+            Object.keys(agents).forEach(id => { saved[id] = agents[id].data.status; });
+            for (let i = 0; i < events.length; i++) {
+                const e = events[i];
+                const room = AGENT_TO_ROOM[e.agent] || 'coordinator';
+                Object.keys(agents).forEach(id => {
+                    if (saved[id] !== 'standby') agents[id].data.status = 'idle';
+                });
+                if (agents[room]) {
+                    agents[room].data.status = room === 'review' ? 'reviewing' : 'working';
+                    pulseStation(room);
+                    if (i === 0 || AGENT_TO_ROOM[events[i - 1].agent] !== room) focusAgent(room);
+                }
+                addLog(e.agent, e.msg, e.t);
+                await new Promise(r => setTimeout(r, 2200));
+            }
+            replaying = false;
+            btn.classList.remove('active');
+            btn.innerHTML = '<i class="fa-solid fa-play"></i> Mô Phỏng Case';
+            resetCamera();
+            loadStatus();
         }
 
         function pulseStation(id) {
