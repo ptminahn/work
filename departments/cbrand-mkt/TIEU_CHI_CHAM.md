@@ -12,6 +12,7 @@ Chấm từng tiêu chí: `ĐẠT` / `KHÔNG ĐẠT` / `KHÔNG ÁP DỤNG`. Có 
 | C4 | Mechanic không xung đột CTKM đang chạy | Có ghi CTKM đang chạy (kèm nguồn) và điều kiện "không áp dụng đồng thời" rõ ràng. Áp dụng bước 4, `deal-push` |
 | C5 | Task đủ owner, deadline, link tài liệu | Áp dụng bước 5. Tiêu chí chấm brief chi tiết: bổ sung khi có mẫu brief |
 | C6 | Không lẫn ngành hàng ngoài C-Brand | Có Apple/iPhone, Samsung, phụ kiện, TBCN/Bear trong phần đề xuất → KHÔNG ĐẠT |
+| C7 | Đúng điều cấm và cổng duyệt | Dòng đầu có `Trạng thái: chờ duyệt`. Không có từ cấm ("rẻ nhất", "giá tốt nhất" khi chưa có số), không hứa doanh thu/ngày giao với khách, không bịa đánh giá. Theo `CLAUDE.md` mục 5 |
 
 ## Tiêu chí riêng theo bước
 
@@ -28,7 +29,7 @@ Chấm từng tiêu chí: `ĐẠT` / `KHÔNG ĐẠT` / `KHÔNG ÁP DỤNG`. Có 
 
 ## Mẫu file chấm
 
-Ghi vào `cham/<buoc>-v<n>.md`:
+Phòng Chấm chỉ được đọc, trả nội dung này cho lễ tân; lễ tân ghi vào `cham/<buoc>-v<n>.md`:
 
 ```markdown
 # Chấm: <buoc> – vòng <n>

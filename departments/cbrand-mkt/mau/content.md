@@ -1,3 +1,5 @@
+Trạng thái: chờ duyệt
+
 # Content – <loại: social | web/landing | email/ZNS | seeding | livestream>
 
 - Mục tiêu: …

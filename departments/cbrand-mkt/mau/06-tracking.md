@@ -1,3 +1,5 @@
+Trạng thái: chờ duyệt
+
 # Bước 6 – Tracking
 
 - Kỳ theo dõi: <…>

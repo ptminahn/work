@@ -1,3 +1,5 @@
+Trạng thái: chờ duyệt
+
 # Bước 4 – Creative
 
 ## Tóm tắt (a)(b)(c)

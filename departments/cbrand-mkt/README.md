@@ -18,28 +18,40 @@ Mở Claude Code trong thư mục repo `work`, gõ lệnh `/cb-mkt` kèm yêu c�
 | Duyệt | `/cb-mkt duyet <case_id>` |
 | Trả về sửa | `/cb-mkt tra-ve <case_id> <góp ý>` |
 | Đã bổ sung số, chạy tiếp | `/cb-mkt tiep <case_id>` |
+| Chê và ghi luật mới | `/cb-mkt che <case_id> research <sai ở đâu> \| <sửa thành gì> \| <luật một câu>` |
+| Research nhanh vài SKU | `/cb-mkt Research Xiaomi 15T và Pad 7, từ khoá "xiaomi 15t", số ở du-lieu/` |
 
 Kết quả nằm trong `cases/<case_id>/`, mỗi bước một file, kết quả chấm ở `cases/<case_id>/cham/`.
 
 ## Đội có những ai
 
-| Agent | Làm gì |
-|---|---|
-| `/cb-mkt` (lễ tân) | Nhận yêu cầu, mở case, gọi đúng người, dừng chờ duyệt. Không tự phân tích |
-| `cb-sku` | Bước 1: chọn SKU cần đẩy từ doanh thu, tồn kho |
-| `cb-research` | Bước 2: so giá, CTKM đối thủ, vị trí DDV trên Google |
-| `cb-strategy` | Bước 3–4: Reason-to-buy, Big idea, mechanic, kênh, ngân sách ước lượng |
-| `cb-plan` | Bước 5: timeline, brief từng team, task gợi ý cho Lark |
-| `cb-report` | Bước 6–7: tracking, report, Insight; task digest |
-| `cb-content` | Content social, web, ZNS, seeding, livestream |
-| `cb-review` | Vai chấm: chấm mọi đầu ra, chạy model khác vai làm |
+Làm theo khoá học: **mở từng phòng, chạy ổn rồi mới mở tiếp**. Mỗi phòng có bản mô tả công việc `agents/<phòng>/VAI_TRO.md` 5 phần: NHẬN · LÀM · GIAO · LUẬT · TỰ KIỂM.
+
+| Phòng | Làm gì | Trạng thái |
+|---|---|---|
+| Lễ tân `/cb-mkt` | Nhận yêu cầu, mở case, gọi đúng phòng, ghi file chấm, dừng chờ duyệt | Đang mở |
+| Research | So giá, CTKM đối thủ, vị trí DDV trên Google | **Đang mở** |
+| Chấm | Người kiểm, chỉ được đọc, model khác phòng làm | **Đang mở** |
+| Chọn SKU | Chọn SKU cần đẩy từ doanh thu, tồn kho | Chưa mở |
+| Chiến lược | Reason-to-buy, Big idea, mechanic, ngân sách ước lượng | Chưa mở |
+| Report | Tracking, report, Insight; task digest | Chưa mở |
+| Content | Social, web, ZNS, seeding, livestream | Chưa mở |
+| Kế hoạch | Timeline, brief từng team, task gợi ý cho Lark | Chưa mở |
+
+Mở phòng: sửa dòng trạng thái trong `VAI_TRO.md` của phòng đó và bảng ở `QUY_TRINH.md` mục 1.
+
+## Cách làm cho đội tốt dần lên
+
+Chạy → đọc file → chê 3 phần (sai ở đâu · sửa thành gì · luật một câu) → luật được ghi vào `VAI_TRO.md` có ngày → `/clear` rồi chạy lại. Chê trong chat thì phiên sau quên; ghi vào file thì lần nào phòng cũng đọc lại.
 
 ## File quan trọng
 
 | File | Nội dung |
 |---|---|
 | `SPEC.md` | Spec gốc |
-| `NOI_QUY.md` | Luật mọi agent phải theo |
+| `../../CLAUDE.md` | Nội quy chung 6 phần, cả đội đọc đầu mỗi phiên |
+| `NOI_QUY.md` | Luật riêng phòng C-Brand: 3 câu (a)(b)(c), số liệu, GATE |
+| `agents/<phòng>/VAI_TRO.md` | Mô tả công việc từng phòng, nơi ghi luật mới |
 | `QUY_TRINH.md` | Pipeline 7 bước, loại case, trạng thái, GATE |
 | `TIEU_CHI_CHAM.md` | Tiêu chí vai chấm dùng |
 | `cau-hinh.md` | **Minahn điền:** ngưỡng GATE 2, link Power BI / Sheet / Report Hero |

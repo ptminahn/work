@@ -1,3 +1,5 @@
+Trạng thái: chờ duyệt
+
 # Bước 7 – Report & Insight
 
 ## Kết quả so với target
