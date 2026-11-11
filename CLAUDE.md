@@ -64,3 +64,4 @@ File này là nội quy chung cho mọi AI trong đội. Đọc kỹ trước kh
 ## Luật thêm (ghi ngày mỗi lần thêm)
 
 - (Thêm 2026-11-11) Bắt đầu nội quy theo khung 6 phần của Tập 3.
+- (Thêm 2026-11-11) Git: commit và push thẳng vào nhánh `main` của repo này, không tạo nhánh riêng, không mở pull request.
