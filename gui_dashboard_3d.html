@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D AI Agent Command Center - Di Động Việt C-Brand</title>
+    <!-- Three.js & OrbitControls from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a0e17;
+            --panel-bg: rgba(15, 23, 42, 0.85);
+            --border: #1e293b;
+            --primary: #e11d48;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-purple: #a855f7;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Top HUD Bar */
+        .hud-top {
+            position: absolute;
+            top: 16px;
+            left: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .hud-brand {
+            pointer-events: auto;
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+
+        .ddv-badge {
+            background: var(--primary);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+
+        .hud-brand h1 {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .hud-brand span {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .hud-controls-top {
+            pointer-events: auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        .hud-btn {
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .hud-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+
+        .hud-btn.active {
+            background: rgba(6, 182, 212, 0.2);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        /* Live Terminal Logs Drawer (Bottom) */
+        .hud-bottom-logs {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 460px;
+            max-height: 250px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+
+        .log-header {
+            padding: 10px 16px;
+            background: rgba(0,0,0,0.3);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            letter-spacing: 0.5px;
+        }
+
+        .log-list {
+            padding: 12px 16px;
+            overflow-y: auto;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 11px;
+            line-height: 1.6;
+            color: #cbd5e1;
+            max-height: 190px;
+        }
+
+        .log-item {
+            margin-bottom: 6px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .log-time {
+            color: var(--text-sub);
+        }
+
+        .log-agent {
+            font-weight: bold;
+        }
+
+        .log-agent.research { color: var(--accent-cyan); }
+        .log-agent.review { color: var(--accent-amber); }
+        .log-agent.coordinator { color: var(--accent-purple); }
+        .log-agent.content { color: var(--accent-green); }
+
+        /* Detail Sidebar (Right) */
+        .hud-sidebar-right {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            width: 340px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            z-index: 10;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            transition: all 0.3s;
+        }
+
+        .sidebar-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-sub);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .agent-focus-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            background: rgba(0,0,0,0.25);
+            margin-bottom: 16px;
+        }
+
+        .agent-focus-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .agent-focus-role {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-bottom: 12px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .status-badge.working {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            animation: pulse-glow 1.5s infinite;
+        }
+
+        .status-badge.standby {
+            background: rgba(148, 163, 184, 0.1);
+            color: #94a3b8;
+            border: 1px solid #334155;
+        }
+
+        .status-badge.reviewing {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-amber);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 4px var(--accent-green)); }
+            50% { opacity: 0.6; }
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .metric-label {
+            color: var(--text-sub);
+        }
+
+        .metric-value {
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .btn-trigger-action {
+            width: 100%;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-trigger-action:hover {
+            background: #be123c;
+            transform: translateY(-1px);
+        }
+
+        /* 3D Label overlay */
+        .agent-3d-tag {
+            position: absolute;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            pointer-events: none;
+            transform: translate(-50%, -100%);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            transition: opacity 0.2s;
+        }
+
+        .agent-3d-tag::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px 6px 0;
+            border-style: solid;
+            border-color: rgba(15, 23, 42, 0.9) transparent;
+        }
+
+        .tag-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        /* Tooltip hint */
+        .camera-hint {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: var(--text-sub);
+            pointer-events: none;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+
+    <!-- HUD Header -->
+    <div class="hud-top">
+        <div class="hud-brand">
+            <span class="ddv-badge">DI ĐỘNG VIỆT</span>
+            <div>
+                <h1>C-Brand 3D AI Operations Center</h1>
+                <span>Giám sát thời gian thực: Xiaomi, OPPO & Android Tablet</span>
+            </div>
+        </div>
+
+        <div class="hud-controls-top">
+            <button class="hud-btn" id="btn-trigger-task" onclick="simulateNewTask()">
+                <i class="fa-solid fa-bolt"></i> Giả Lập Giao Case Mới
+            </button>
+            <button class="hud-btn active" id="btn-auto-rotate" onclick="toggleAutoRotate()">
+                <i class="fa-solid fa-arrows-rotate"></i> Xoay Tự Động: BẬT
+            </button>
+            <button class="hud-btn" onclick="resetCamera()">
+                <i class="fa-solid fa-crosshairs"></i> Reset Góc Nhìn
+            </button>
+        </div>
+    </div>
+
+    <!-- Live Terminal Activity Logs -->
+    <div class="hud-bottom-logs">
+        <div class="log-header">
+            <span><i class="fa-solid fa-terminal"></i> NHẬT KÝ HOẠT ĐỘNG PHÒNG BAN (LIVE STREAM)</span>
+            <span style="font-size: 10px; color: var(--accent-green);">● SYNC ACTIVE</span>
+        </div>
+        <div class="log-list" id="logList">
+            <div class="log-item">
+                <span class="log-time">[17:00:12]</span>
+                <span class="log-agent coordinator">[Lễ Tân /cb-mkt]</span>
+                <span>Khởi động hệ sinh thái C-Brand Marketing Multi-Agent.</span>
+            </div>
+            <div class="log-item">
+                <span class="log-time">[17:00:15]</span>
+                <span class="log-agent research">[cb-research]</span>
+                <span>Đang kết nối: Quét giá Xiaomi Redmi Note 13 tại CellphoneS, TGDĐ...</span>
+            </div>
+            <div class="log-item">
+                <span class="log-time">[17:00:18]</span>
+                <span class="log-agent review">[cb-review]</span>
+                <span>Cổng kiểm định Opus sẵn sàng soát lỗi (Quy chế CLAUDE.md).</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Sidebar Detail Information -->
+    <div class="hud-sidebar-right">
+        <div class="sidebar-title">
+            <span>Thông Tin Phòng Đang Chọn</span>
+            <i class="fa-solid fa-circle-nodes"></i>
+        </div>
+
+        <div class="agent-focus-card">
+            <div class="agent-focus-name">
+                <span id="detailAgentName">Phòng Research (cb-research)</span>
+                <span class="status-badge working" id="detailStatusBadge">ĐANG CHẠY</span>
+            </div>
+            <div class="agent-focus-role" id="detailRole">Nghiên cứu đối thủ, giá, khuyến mãi và Google SERP</div>
+
+            <div class="metric-row">
+                <span class="metric-label">Model AI:</span>
+                <span class="metric-value" id="detailModel">Claude 3.5 Sonnet</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">File đầu ra:</span>
+                <span class="metric-value" id="detailOutput">02-research.md</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">Số vòng soát lỗi:</span>
+                <span class="metric-value" id="detailCycles">1 / 2 Max</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">Trạng thái Gate:</span>
+                <span class="metric-value" style="color: var(--accent-cyan);" id="detailGate">Đang mở</span>
+            </div>
+        </div>
+
+        <div class="sidebar-title" style="margin-top: 20px;">
+            <span>Chỉ Số Vận Hành Hiện Tại</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Độ hiện diện C-Brand DDV:</span>
+            <span class="metric-value" style="color: var(--accent-amber);">Trang 2 (Cần tối ưu)</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Đối thủ quét chính:</span>
+            <span class="metric-value">CellphoneS, TGDĐ, FPT</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Chế độ kiểm soát:</span>
+            <span class="metric-value" style="color: var(--accent-green);">Gatekeeper (Opus)</span>
+        </div>
+
+        <button class="btn-trigger-action" onclick="focusAgent('research')">
+            <i class="fa-solid fa-magnifying-glass-location"></i> Camera Zoom Tới Phòng Này
+        </button>
+    </div>
+
+    <div class="camera-hint">
+        <i class="fa-solid fa-hand-pointer"></i> Chuột trái: Xoay 3D | Chuột phải: Di chuyển | Cuộn chuột: Phóng to / Thu nhỏ
+    </div>
+
+    <!-- 3D Scripts Logic -->
+    <script>
+        let scene, camera, renderer, controls;
+        let agents = {};
+        let particles, particleGeo, particleMat;
+        let dataPackets = [];
+        let autoRotate = true;
+
+        // Định nghĩa các phòng ban trong không gian 3D
+        const agentDefinitions = [
+            {
+                id: 'coordinator',
+                name: 'Lễ Tân Điều Phối',
+                code: '/cb-mkt',
+                role: 'Điều phối toàn bộ Pipeline & mở Case',
+                color: 0xa855f7, // Tím
+                pos: { x: 0, y: 0, z: 0 },
+                status: 'working',
+                model: 'Claude Code Orchestrator',
+                output: 'case.md'
+            },
+            {
+                id: 'research',
+                name: 'Phòng Research',
+                code: 'cb-research',
+                role: 'Quét giá đối thủ & vị trí Google DDV',
+                color: 0x06b6d4, // Xanh Cyan
+                pos: { x: -8, y: 0, z: -5 },
+                status: 'working',
+                model: 'Claude 3.5 Sonnet',
+                output: '02-research.md'
+            },
+            {
+                id: 'review',
+                name: 'Phòng Chấm (Gatekeeper)',
+                code: 'cb-review',
+                role: 'Cổng kiểm tra độc lập 6 tiêu chí cấm',
+                color: 0xf59e0b, // Vàng hổ phách
+                pos: { x: 8, y: 0, z: -5 },
+                status: 'reviewing',
+                model: 'Claude 3.7 Opus (Read-only)',
+                output: 'cham/*.md'
+            },
+            {
+                id: 'sku',
+                name: 'Phòng Chọn SKU',
+                code: 'cb-sku',
+                role: 'Lọc tồn kho và biên lợi nhuận C-Brand',
+                color: 0x64748b, // Xám
+                pos: { x: -10, y: 0, z: 6 },
+                status: 'standby',
+                model: 'Sonnet (Chờ mở)',
+                output: '01-sku.md'
+            },
+            {
+                id: 'strategy',
+                name: 'Phòng Chiến Lược & RTB',
+                code: 'cb-strategy',
+                role: 'Tạo lý do mua tại DDV & thông điệp',
+                color: 0x3b82f6, // Xanh biển
+                pos: { x: 0, y: 0, z: 10 },
+                status: 'standby',
+                model: 'Sonnet (Chờ mở)',
+                output: '03-rtb & 04-creative'
+            },
+            {
+                id: 'plan',
+                name: 'Phòng Kế Hoạch & Brief',
+                code: 'cb-plan',
+                role: 'Lập action plan, timeline và brief kênh',
+                color: 0x10b981, // Xanh lá
+                pos: { x: 10, y: 0, z: 6 },
+                status: 'standby',
+                model: 'Sonnet (Chờ mở)',
+                output: '05-plan.md'
+            }
+        ];
+
+        function init() {
+            const container = document.getElementById('canvas-container');
+
+            // 1. Scene
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x0a0e17, 0.02);
+
+            // 2. Camera
+            camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 22, 28);
+
+            // 3. Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            container.appendChild(renderer.domElement);
+
+            // 4. Controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.maxPolarAngle = Math.PI / 2.1; // Không nhìn xuyên dưới đất
+            controls.minDistance = 10;
+            controls.maxDistance = 60;
+            controls.target.set(0, 0, 0);
+
+            // 5. Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            dirLight.position.set(15, 30, 20);
+            scene.add(dirLight);
+
+            // Điểm sáng tâm sàn
+            const centerLight = new THREE.PointLight(0xa855f7, 2, 25);
+            centerLight.position.set(0, 4, 0);
+            scene.add(centerLight);
+
+            // 6. Cyberpunk Ground Grid
+            createSciFiFloor();
+
+            // 7. Tạo các phòng Station 3D
+            createStations();
+
+            // 8. Tạo đường truyền dữ liệu (Data Pipelines)
+            createDataPipelines();
+
+            // 9. Particle Background
+            createParticleField();
+
+            // Resize event
+            window.addEventListener('resize', onWindowResize);
+
+            // Raycaster click chọn phòng
+            setupRaycaster();
+
+            // Bắt đầu vòng lặp Render
+            animate();
+        }
+
+        // Tạo sàn công nghệ
+        function createSciFiFloor() {
+            const size = 60;
+            const divisions = 60;
+            const gridHelper = new THREE.GridHelper(size, divisions, 0x06b6d4, 0x1e293b);
+            gridHelper.position.y = -0.01;
+            scene.add(gridHelper);
+
+            // Vòng tròn trung tâm
+            const ringGeo = new THREE.RingGeometry(3, 3.2, 64);
+            const ringMat = new THREE.MeshBasicMaterial({ color: 0xa855f7, side: THREE.DoubleSide });
+            const ring = new THREE.Mesh(ringGeo, ringMat);
+            ring.rotation.x = Math.PI / 2;
+            ring.position.y = 0.01;
+            scene.add(ring);
+
+            // Vòng tròn lớn bao quanh
+            const bigRingGeo = new THREE.RingGeometry(16, 16.1, 64);
+            const bigRingMat = new THREE.MeshBasicMaterial({ color: 0x334155, side: THREE.DoubleSide });
+            const bigRing = new THREE.Mesh(bigRingGeo, bigRingMat);
+            bigRing.rotation.x = Math.PI / 2;
+            bigRing.position.y = 0.01;
+            scene.add(bigRing);
+        }
+
+        // Tạo các phòng AI Agent Station
+        function createStations() {
+            agentDefinitions.forEach(agent => {
+                const group = new THREE.Group();
+                group.position.set(agent.pos.x, agent.pos.y, agent.pos.z);
+                group.userData = agent;
+
+                // Đế Pod tròn
+                const baseGeo = new THREE.CylinderGeometry(2, 2.3, 0.4, 32);
+                const baseMat = new THREE.MeshStandardMaterial({
+                    color: 0x0f172a,
+                    metalness: 0.8,
+                    roughness: 0.3
+                });
+                const base = new THREE.Mesh(baseGeo, baseMat);
+                base.position.y = 0.2;
+                group.add(base);
+
+                // Vòng Neon phát sáng quanh đế
+                const neonRingGeo = new THREE.TorusGeometry(2.1, 0.06, 16, 64);
+                const neonRingMat = new THREE.MeshBasicMaterial({ color: agent.color });
+                const neonRing = new THREE.Mesh(neonRingGeo, neonRingMat);
+                neonRing.rotation.x = Math.PI / 2;
+                neonRing.position.y = 0.4;
+                group.add(neonRing);
+
+                // Khối Core đại diện cho Agent (Hình khối công nghệ xoay)
+                let coreGeo;
+                if (agent.id === 'coordinator') {
+                    coreGeo = new THREE.OctahedronGeometry(1.2, 0); // Bát diện cho Lễ Tân
+                } else if (agent.id === 'review') {
+                    coreGeo = new THREE.IcosahedronGeometry(1.0, 0); // Cầu gai cho Người Kiểm
+                } else {
+                    coreGeo = new THREE.BoxGeometry(1.2, 1.2, 1.2);
+                }
+
+                const coreMat = new THREE.MeshStandardMaterial({
+                    color: agent.color,
+                    wireframe: true,
+                    emissive: agent.color,
+                    emissiveIntensity: 0.4
+                });
+
+                const core = new THREE.Mesh(coreGeo, coreMat);
+                core.position.y = 2.0;
+                group.add(core);
+
+                // Khối phát sáng bên trong
+                const innerGeo = new THREE.SphereGeometry(0.5, 16, 16);
+                const innerMat = new THREE.MeshBasicMaterial({ color: agent.color });
+                const inner = new THREE.Mesh(innerGeo, innerMat);
+                inner.position.y = 2.0;
+                group.add(inner);
+
+                // Cột ánh sáng chiếu đứng
+                const beamGeo = new THREE.CylinderGeometry(0.8, 0.8, 4, 16, 1, true);
+                const beamMat = new THREE.MeshBasicMaterial({
+                    color: agent.color,
+                    transparent: true,
+                    opacity: 0.15,
+                    side: THREE.DoubleSide
+                });
+                const beam = new THREE.Mesh(beamGeo, beamMat);
+                beam.position.y = 2;
+                group.add(beam);
+
+                scene.add(group);
+                agents[agent.id] = { group, core, neonRing, data: agent };
+            });
+        }
+
+        // Tạo các đường kết nối dữ liệu nối giữa các trạm
+        function createDataPipelines() {
+            const connections = [
+                ['coordinator', 'research'],
+                ['coordinator', 'review'],
+                ['coordinator', 'sku'],
+                ['coordinator', 'strategy'],
+                ['coordinator', 'plan'],
+                ['research', 'review'],
+                ['strategy', 'review']
+            ];
+
+            connections.forEach(([fromId, toId]) => {
+                const from = agents[fromId].group.position;
+                const to = agents[toId].group.position;
+
+                const curve = new THREE.QuadraticBezierCurve3(
+                    new THREE.Vector3(from.x, 0.4, from.z),
+                    new THREE.Vector3((from.x + to.x) / 2, 1.5, (from.z + to.z) / 2),
+                    new THREE.Vector3(to.x, 0.4, to.z)
+                );
+
+                const points = curve.getPoints(50);
+                const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+                const lineMat = new THREE.LineBasicMaterial({
+                    color: 0x1e293b,
+                    transparent: true,
+                    opacity: 0.6
+                });
+                const line = new THREE.Line(lineGeo, lineMat);
+                scene.add(line);
+
+                // Thêm các gói dữ liệu bay liên tục trên đường
+                const packetGeo = new THREE.SphereGeometry(0.12, 8, 8);
+                const packetMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4 });
+                const packet = new THREE.Mesh(packetGeo, packetMat);
+                scene.add(packet);
+
+                dataPackets.push({
+                    mesh: packet,
+                    curve: curve,
+                    progress: Math.random(),
+                    speed: 0.004 + Math.random() * 0.004
+                });
+            });
+        }
+
+        // Bụi hạt công nghệ xung quanh
+        function createParticleField() {
+            const count = 300;
+            particleGeo = new THREE.BufferGeometry();
+            const positions = new Float32Array(count * 3);
+
+            for (let i = 0; i < count * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 50;
+                positions[i + 1] = Math.random() * 15;
+                positions[i + 2] = (Math.random() - 0.5) * 50;
+            }
+
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particleMat = new THREE.PointsMaterial({
+                color: 0x06b6d4,
+                size: 0.15,
+                transparent: true,
+                opacity: 0.4
+            });
+
+            particles = new THREE.Points(particleGeo, particleMat);
+            scene.add(particles);
+        }
+
+        // Tương tác click chuột vào trạm
+        function setupRaycaster() {
+            const raycaster = new THREE.Raycaster();
+            const mouse = new THREE.Vector2();
+
+            window.addEventListener('click', (event) => {
+                // Tránh click khi bấm vào các thanh HUD
+                if (event.clientY < 70 || event.clientX > window.innerWidth - 360) return;
+
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+                raycaster.setFromCamera(mouse, camera);
+
+                const clickableObjects = [];
+                Object.values(agents).forEach(a => {
+                    a.group.traverse(child => {
+                        if (child.isMesh) clickableObjects.push(child);
+                    });
+                });
+
+                const intersects = raycaster.intersectObjects(clickableObjects);
+                if (intersects.length > 0) {
+                    let target = intersects[0].object;
+                    while (target.parent && !target.userData.id) {
+                        target = target.parent;
+                    }
+                    if (target.userData.id) {
+                        focusAgent(target.userData.id);
+                    }
+                }
+            });
+        }
+
+        function focusAgent(id) {
+            const targetAgent = agents[id].data;
+
+            // Cập nhật chi tiết HUD bên phải
+            document.getElementById('detailAgentName').innerText = targetAgent.name + ' (' + targetAgent.code + ')';
+            document.getElementById('detailRole').innerText = targetAgent.role;
+            document.getElementById('detailModel').innerText = targetAgent.model;
+            document.getElementById('detailOutput').innerText = targetAgent.output;
+
+            const badge = document.getElementById('detailStatusBadge');
+            if (targetAgent.status === 'working') {
+                badge.innerText = 'ĐANG CHẠY';
+                badge.className = 'status-badge working';
+            } else if (targetAgent.status === 'reviewing') {
+                badge.innerText = 'ĐANG SOÁT LỖI';
+                badge.className = 'status-badge reviewing';
+            } else {
+                badge.innerText = 'CHỜ MỞ';
+                badge.className = 'status-badge standby';
+            }
+
+            // Di chuyển camera mượt mà tới agent
+            const targetPos = targetAgent.pos;
+            const startPos = { x: camera.position.x, y: camera.position.y, z: camera.position.z };
+            const endPos = { x: targetPos.x + 5, y: targetPos.y + 6, z: targetPos.z + 8 };
+
+            let progress = 0;
+            const anim = setInterval(() => {
+                progress += 0.05;
+                camera.position.x = startPos.x + (endPos.x - startPos.x) * progress;
+                camera.position.y = startPos.y + (endPos.y - startPos.y) * progress;
+                camera.position.z = startPos.z + (endPos.z - startPos.z) * progress;
+                controls.target.set(targetPos.x, targetPos.y + 1.5, targetPos.z);
+                if (progress >= 1) clearInterval(anim);
+            }, 16);
+
+            addLog(targetAgent.code, `Minahn vừa chuyển góc nhìn tập trung vào [${targetAgent.name}].`);
+        }
+
+        function resetCamera() {
+            controls.target.set(0, 0, 0);
+            camera.position.set(0, 22, 28);
+        }
+
+        function toggleAutoRotate() {
+            autoRotate = !autoRotate;
+            const btn = document.getElementById('btn-auto-rotate');
+            if (autoRotate) {
+                btn.className = 'hud-btn active';
+                btn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Xoay Tự Động: BẬT';
+            } else {
+                btn.className = 'hud-btn';
+                btn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Xoay Tự Động: TẮT';
+            }
+        }
+
+        function simulateNewTask() {
+            addLog('/cb-mkt', 'Nhận đề bài: "Campaign thúc đẩy Xiaomi Redmi Note 13 series cuối tháng".');
+            setTimeout(() => {
+                addLog('cb-research', 'Đang quét giá CellphoneS, TGDĐ và kiểm tra độ phủ Google DDV...');
+                pulseStation('research');
+            }, 1000);
+            setTimeout(() => {
+                addLog('cb-research', 'Hoàn tất xuất file: departments/cbrand-mkt/cases/02-research.md (CHỜ DUYỆT).');
+            }, 3000);
+            setTimeout(() => {
+                addLog('cb-review', 'Opus Gatekeeper tự động bật: Kiểm tra điều cấm "Không bịa số liệu".');
+                pulseStation('review');
+            }, 4500);
+            setTimeout(() => {
+                addLog('cb-review', 'KẾT QUẢ CHẤM: PASS cả 6 tiêu chí nội quy! Đã chuyển case sang WAITING_GATE1.');
+            }, 6500);
+        }
+
+        function pulseStation(id) {
+            const core = agents[id].core;
+            let scale = 1.0;
+            let dir = 0.05;
+            const interval = setInterval(() => {
+                scale += dir;
+                core.scale.set(scale, scale, scale);
+                if (scale >= 1.5) dir = -0.05;
+                if (scale <= 1.0) {
+                    core.scale.set(1, 1, 1);
+                    clearInterval(interval);
+                }
+            }, 30);
+        }
+
+        function addLog(agent, msg) {
+            const list = document.getElementById('logList');
+            const now = new Date();
+            const timeStr = `[${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}]`;
+
+            let agentClass = 'coordinator';
+            if (agent.includes('research')) agentClass = 'research';
+            if (agent.includes('review')) agentClass = 'review';
+            if (agent.includes('content')) agentClass = 'content';
+
+            const item = document.createElement('div');
+            item.className = 'log-item';
+            item.innerHTML = `
+                <span class="log-time">${timeStr}</span>
+                <span class="log-agent ${agentClass}">[${agent}]</span>
+                <span>${msg}</span>
+            `;
+            list.appendChild(item);
+            list.scrollTop = list.scrollHeight;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = Date.now() * 0.001;
+
+            // Xoay các khối Core tại từng Agent Station
+            Object.values(agents).forEach(a => {
+                a.core.rotation.y += 0.015;
+                a.core.rotation.x += 0.008;
+                // Hiệu ứng nhấp nhô nhẹ lơ lửng
+                a.core.position.y = 2.0 + Math.sin(time * 2 + a.data.pos.x) * 0.15;
+            });
+
+            // Di chuyển các gói dữ liệu bay dọc đường cong
+            dataPackets.forEach(p => {
+                p.progress += p.speed;
+                if (p.progress > 1) p.progress = 0;
+                const pos = p.curve.getPoint(p.progress);
+                p.mesh.position.set(pos.x, pos.y, pos.z);
+            });
+
+            // Xoay nhẹ bụi hạt background
+            if (particles) {
+                particles.rotation.y = time * 0.02;
+            }
+
+            // Tự động xoay quanh tâm
+            if (autoRotate && controls) {
+                controls.autoRotate = true;
+                controls.autoRotateSpeed = 0.8;
+            } else if (controls) {
+                controls.autoRotate = false;
+            }
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
