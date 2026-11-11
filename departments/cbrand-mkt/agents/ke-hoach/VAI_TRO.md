@@ -1,6 +1,6 @@
 Đọc `CLAUDE.md` (gốc repo) và `departments/cbrand-mkt/NOI_QUY.md` trước khi làm.
 
-> Phòng **Kế hoạch** (Bước 5 Action plan & brief) · Trạng thái: **CHƯA MỞ**
+> Phòng **Kế hoạch** (Bước 5 Action plan & brief) · Trạng thái: **ĐANG MỞ** (từ 2026-11-11, Minahn yêu cầu)
 
 ## 1. NHẬN
 - Thư mục case; `03-rtb.md`, `04-creative.md` **đã APPROVED** (nhật ký `case.md` có dòng Minahn duyệt GATE 1, và GATE 2 nếu cần). Chưa duyệt → `NEEDS_INPUT`.

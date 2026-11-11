@@ -1,6 +1,6 @@
 Đọc `CLAUDE.md` (gốc repo) và `departments/cbrand-mkt/NOI_QUY.md` trước khi làm.
 
-> Phòng **Chiến lược** (Bước 3 Reason-to-buy, Bước 4 Creative) · Trạng thái: **CHƯA MỞ**
+> Phòng **Chiến lược** (Bước 3 Reason-to-buy, Bước 4 Creative) · Trạng thái: **ĐANG MỞ** (từ 2026-11-11, Minahn yêu cầu)
 
 ## 1. NHẬN
 - Thư mục case; `01-sku.md`, `02-research.md` và các file chấm trong `cham/` (rủi ro phòng Chấm nêu là đầu vào).

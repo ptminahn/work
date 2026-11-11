@@ -33,10 +33,10 @@ Làm theo khoá học: **mở từng phòng, chạy ổn rồi mới mở tiếp
 | Research | So giá, CTKM đối thủ, vị trí DDV trên Google | **Đang mở** |
 | Chấm | Người kiểm, chỉ được đọc, model khác phòng làm | **Đang mở** |
 | Chọn SKU | Chọn SKU cần đẩy từ doanh thu, tồn kho | Chưa mở |
-| Chiến lược | Reason-to-buy, Big idea, mechanic, ngân sách ước lượng | Chưa mở |
+| Chiến lược | Reason-to-buy, Big idea, mechanic, ngân sách ước lượng | **Đang mở** |
 | Report | Tracking, report, Insight; task digest | Chưa mở |
 | Content | Social, web, ZNS, seeding, livestream | Chưa mở |
-| Kế hoạch | Timeline, brief từng team, task gợi ý cho Lark | Chưa mở |
+| Kế hoạch | Timeline, brief từng team, task gợi ý cho Lark | **Đang mở** |
 
 Mở phòng: sửa dòng trạng thái trong `VAI_TRO.md` của phòng đó và bảng ở `QUY_TRINH.md` mục 1.
 

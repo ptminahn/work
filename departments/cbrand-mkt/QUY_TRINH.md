@@ -10,8 +10,8 @@ Mở từng phòng, chạy ổn (qua vài vòng chê-sửa với số thật) r�
 | Research | `agents/research/VAI_TRO.md` | `cb-research` | sonnet | **ĐANG MỞ** (2026-11-11) |
 | Chấm | `agents/cham/VAI_TRO.md` | `cb-review` | **opus**, chỉ đọc | **ĐANG MỞ** (2026-11-11) |
 | Chọn SKU | `agents/sku/VAI_TRO.md` | `cb-sku` | sonnet | CHƯA MỞ |
-| Chiến lược | `agents/chien-luoc/VAI_TRO.md` | `cb-strategy` | sonnet | CHƯA MỞ |
-| Kế hoạch | `agents/ke-hoach/VAI_TRO.md` | `cb-plan` | sonnet | CHƯA MỞ |
+| Chiến lược | `agents/chien-luoc/VAI_TRO.md` | `cb-strategy` | sonnet | **ĐANG MỞ** (2026-11-11, Minahn yêu cầu) |
+| Kế hoạch | `agents/ke-hoach/VAI_TRO.md` | `cb-plan` | sonnet | **ĐANG MỞ** (2026-11-11, Minahn yêu cầu) |
 | Report | `agents/report/VAI_TRO.md` | `cb-report` | sonnet | CHƯA MỞ |
 | Content | `agents/content/VAI_TRO.md` | `cb-content` | sonnet | CHƯA MỞ |
 
