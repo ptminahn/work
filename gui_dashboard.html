@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C-Brand AI Marketing Hub - Di Động Việt</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --border: #334155;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --primary: #e11d48;
+            --primary-hover: #be123c;
+            --accent: #38bdf8;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding: 24px;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 28px;
+        }
+
+        .logo-area h1 {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge-ddv {
+            background: var(--primary);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .user-tag {
+            font-size: 13px;
+            color: var(--text-sub);
+            margin-top: 4px;
+        }
+
+        .system-status {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .agent-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .agent-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .agent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .agent-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .agent-id {
+            font-size: 11px;
+            color: var(--text-sub);
+            font-family: monospace;
+            background: #0f172a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 3px;
+            display: inline-block;
+        }
+
+        .badge-open {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 12px;
+        }
+
+        .badge-closed {
+            background: rgba(148, 163, 184, 0.1);
+            color: #64748b;
+            border: 1px solid #334155;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+        }
+
+        .badge-gate {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+        }
+
+        .agent-desc {
+            font-size: 12px;
+            color: var(--text-sub);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .agent-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 10px;
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .pipeline-flow {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 12px;
+        }
+
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #0f172a;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+
+        .step-circle.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+        }
+
+        .step-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .step-agent {
+            font-size: 10px;
+            color: var(--text-sub);
+        }
+
+        .prompt-builder {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-sub);
+        }
+
+        select, input, textarea {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: #fff;
+            padding: 10px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .btn-run {
+            width: 100%;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-run:hover {
+            background: var(--primary-hover);
+        }
+
+        .copy-box {
+            margin-top: 16px;
+            background: #090d16;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #38bdf8;
+            word-break: break-all;
+            position: relative;
+        }
+
+        .btn-copy {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #1e293b;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-area">
+            <h1>C-Brand AI Marketing Hub <span class="badge-ddv">DI ĐỘNG VIỆT</span></h1>
+            <div class="user-tag">Minahn • Senior Brand Commercial (Xiaomi, OPPO, Huawei)</div>
+        </div>
+        <div class="system-status">
+            <div class="status-pill">
+                <span class="dot"></span> 2 Phòng Mở • Pipeline Sẵn Sàng
+            </div>
+        </div>
+    </div>
+
+    <div class="main-grid">
+        <div class="left-col">
+            <div class="section-title">Trạng Thái Các Phòng Ban AI</div>
+            <div class="agents-grid">
+                <!-- Lễ Tân -->
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div>
+                            <div class="agent-name">Lễ Tân Điều Phối</div>
+                            <div class="agent-id">/cb-mkt</div>
+                        </div>
+                        <span class="badge-open">ĐANG MỞ</span>
+                    </div>
+                    <div class="agent-desc">Tiếp nhận case, chia việc theo pipeline 7 bước, gọi subagent và quản lý GATE.</div>
+                    <div class="agent-footer">
+                        <span>Model: Theo phiên chat</span>
+                        <span>Role: Orchestrator</span>
+                    </div>
+                </div>
+
+                <!-- Research -->
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div>
+                            <div class="agent-name">Phòng Research</div>
+                            <div class="agent-id">cb-research</div>
+                        </div>
+                        <span class="badge-open">ĐANG MỞ</span>
+                    </div>
+                    <div class="agent-desc">Thu thập giá, CTKM, tồn kho đối thủ (CellphoneS, TGDĐ) & soi SERP Google trang 1.</div>
+                    <div class="agent-footer">
+                        <span>Model: Sonnet</span>
+                        <span>Output: 02-research.md</span>
+                    </div>
+                </div>
+
+                <!-- Chấm -->
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div>
+                            <div class="agent-name">Phòng Chấm (Gatekeeper)</div>
+                            <div class="agent-id">cb-review</div>
+                        </div>
+                        <span class="badge-gate">CHỈ ĐỌC • ĐANG MỞ</span>
+                    </div>
+                    <div class="agent-desc">Soi lỗi độc lập theo 6 tiêu chí: bắt bịa số liệu, hứa giá, sai tone, sai brand.</div>
+                    <div class="agent-footer">
+                        <span>Model: Opus</span>
+                        <span>Output: cham/*.md</span>
+                    </div>
+                </div>
+
+                <!-- Chọn SKU -->
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div>
+                            <div class="agent-name">Phòng Chọn SKU</div>
+                            <div class="agent-id">cb-sku</div>
+                        </div>
+                        <span class="badge-closed">CHƯA MỞ</span>
+                    </div>
+                    <div class="agent-desc">Lọc tồn kho và biên lợi nhuận để chọn SKU cần đẩy theo tháng/quý.</div>
+                    <div class="agent-footer">
+                        <span>Model: Sonnet</span>
+                        <span>Output: 01-sku.md</span>
+                    </div>
+                </div>
+
+                <!-- Chiến Lược -->
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div>
+                            <div class="agent-name">Phòng Chiến Lược</div>
+                            <div class="agent-id">cb-strategy</div>
+                        </div>
+                        <span class="badge-closed">CHƯA MỞ</span>
+                    </div>
+                    <div class="agent-desc">Xác định Reason-To-Buy tại DDV và sáng tạo thông điệp truyền thông (Big Idea).</div>
+                    <div class="agent-footer">
+                        <span>Model: Sonnet</span>
+                        <span>Output: 03-rtb & 04-creative</span>
+                    </div>
+                </div>
+
+                <!-- Kế Hoạch & Brief -->
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div>
+                            <div class="agent-name">Phòng Kế Hoạch</div>
+                            <div class="agent-id">cb-plan</div>
+                        </div>
+                        <span class="badge-closed">CHƯA MỞ</span>
+                    </div>
+                    <div class="agent-desc">Lập timeline, phân bổ ngân sách và brief chi tiết cho Digital, Social, SEO, Trade.</div>
+                    <div class="agent-footer">
+                        <span>Model: Sonnet</span>
+                        <span>Output: 05-plan.md</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">Tiến Trình Pipeline 7 Bước</div>
+            <div class="pipeline-flow">
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-circle">1</div>
+                        <div class="step-title">Chọn SKU</div>
+                        <div class="step-agent">cb-sku</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-circle active">2</div>
+                        <div class="step-title">Research</div>
+                        <div class="step-agent">cb-research</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-circle">3</div>
+                        <div class="step-title">RTB</div>
+                        <div class="step-agent">cb-strategy</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-circle">4</div>
+                        <div class="step-title">Creative</div>
+                        <div class="step-agent">cb-strategy</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-circle">5</div>
+                        <div class="step-title">Kế hoạch</div>
+                        <div class="step-agent">cb-plan</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-circle">6</div>
+                        <div class="step-title">Tracking</div>
+                        <div class="step-agent">cb-report</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-circle">7</div>
+                        <div class="step-title">Report</div>
+                        <div class="step-agent">cb-report</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-col">
+            <div class="section-title">Bảng Điều Khiển Nhanh</div>
+            <div class="prompt-builder">
+                <div class="input-group">
+                    <label>Loại Case Muốn Chạy:</label>
+                    <select id="caseType" onchange="updatePrompt()">
+                        <option value="research">Nghiên cứu đối thủ & SERP (Phòng 2)</option>
+                        <option value="campaign">Lập Campaign toàn diện (7 bước)</option>
+                        <option value="deal-push">Đẩy tồn kho SKU gấp (Deal push)</option>
+                        <option value="presence">Chiến dịch tăng nhận diện C-Brand</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Ngành Hàng / Brand:</label>
+                    <select id="brandSelect" onchange="updatePrompt()">
+                        <option value="Xiaomi (Điện thoại)">Xiaomi (Điện thoại)</option>
+                        <option value="OPPO (Điện thoại)">OPPO (Điện thoại)</option>
+                        <option value="Tablet Android (Huawei / Xiaomi)">Tablet Android (Huawei / Xiaomi)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Chi tiết yêu cầu / SKU:</label>
+                    <textarea id="caseDetails" rows="4" oninput="updatePrompt()">Nghiên cứu so sánh giá, CTKM với CellphoneS, TGDĐ và kiểm tra thứ hạng Google trang 1.</textarea>
+                </div>
+
+                <button class="btn-run" onclick="copyPrompt()">📋 Copy Lệnh Cho Claude Code</button>
+
+                <div class="copy-box" id="promptPreview">
+                    <button class="btn-copy" onclick="copyPrompt()">Copy</button>
+                    <span id="promptText">/cb-mkt research "Xiaomi (Điện thoại): Nghiên cứu so sánh giá, CTKM với CellphoneS, TGDĐ và kiểm tra thứ hạng Google trang 1."</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updatePrompt() {
+            const type = document.getElementById('caseType').value;
+            const brand = document.getElementById('brandSelect').value;
+            const details = document.getElementById('caseDetails').value;
+            const prompt = `/cb-mkt ${type} "${brand}: ${details}"`;
+            document.getElementById('promptText').innerText = prompt;
+        }
+
+        function copyPrompt() {
+            const text = document.getElementById('promptText').innerText;
+            navigator.clipboard.writeText(text);
+            alert('Đã copy câu lệnh! Bạn chỉ cần dán vào Claude Code.');
+        }
+    </script>
+</body>
+</html>
