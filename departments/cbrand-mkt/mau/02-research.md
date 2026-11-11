@@ -1,3 +1,5 @@
+Trạng thái: chờ duyệt
+
 # Bước 2 – Research
 
 ## So sánh giá & CTKM

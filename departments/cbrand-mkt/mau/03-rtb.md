@@ -1,3 +1,5 @@
+Trạng thái: chờ duyệt
+
 # Bước 3 – Reason-to-buy tại DDV
 
 ## Trả lời 3 câu bắt buộc

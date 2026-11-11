@@ -1,3 +1,5 @@
+Trạng thái: chờ duyệt
+
 # Task digest – <dd/mm/yyyy>
 
 > Chỉ đọc. Không sửa, không hoàn thành, không comment trên Lark.

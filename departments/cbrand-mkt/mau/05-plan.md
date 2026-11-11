@@ -1,3 +1,5 @@
+Trạng thái: chờ duyệt
+
 # Bước 5 – Action plan & brief
 
 ## Timeline tổng

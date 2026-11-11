@@ -1,3 +1,5 @@
+Trạng thái: chờ duyệt
+
 # Bước 1 – Chọn SKU
 
 - Kỳ số liệu: <…> [nguồn: …]
