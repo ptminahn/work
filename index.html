@@ -377,8 +377,8 @@
         </div>
 
         <div class="hud-controls-top">
-            <button class="hud-btn" id="btn-trigger-task" onclick="simulateNewTask()">
-                <i class="fa-solid fa-bolt"></i> Giả Lập Giao Case Mới
+            <button class="hud-btn" id="btn-trigger-task" onclick="loadStatus(true)">
+                <i class="fa-solid fa-rotate"></i> Tải Lại Trạng Thái
             </button>
             <button class="hud-btn active" id="btn-auto-rotate" onclick="toggleAutoRotate()">
                 <i class="fa-solid fa-arrows-rotate"></i> Xoay Tự Động: BẬT
@@ -393,24 +393,9 @@
     <div class="hud-bottom-logs">
         <div class="log-header">
             <span><i class="fa-solid fa-terminal"></i> NHẬT KÝ HOẠT ĐỘNG PHÒNG BAN (LIVE STREAM)</span>
-            <span style="font-size: 10px; color: var(--accent-green);">● SYNC ACTIVE</span>
+            <span style="font-size: 10px; color: var(--accent-amber);" id="syncState">● ĐANG TẢI…</span>
         </div>
         <div class="log-list" id="logList">
-            <div class="log-item">
-                <span class="log-time">[17:00:12]</span>
-                <span class="log-agent coordinator">[Lễ Tân /cb-mkt]</span>
-                <span>Khởi động hệ sinh thái C-Brand Marketing Multi-Agent.</span>
-            </div>
-            <div class="log-item">
-                <span class="log-time">[17:00:15]</span>
-                <span class="log-agent research">[cb-research]</span>
-                <span>Đang kết nối: Quét giá Xiaomi Redmi Note 13 tại CellphoneS, TGDĐ...</span>
-            </div>
-            <div class="log-item">
-                <span class="log-time">[17:00:18]</span>
-                <span class="log-agent review">[cb-review]</span>
-                <span>Cổng kiểm định Opus sẵn sàng soát lỗi (Quy chế CLAUDE.md).</span>
-            </div>
         </div>
     </div>
 
@@ -430,7 +415,7 @@
 
             <div class="metric-row">
                 <span class="metric-label">Model AI:</span>
-                <span class="metric-value" id="detailModel">Claude 3.5 Sonnet</span>
+                <span class="metric-value" id="detailModel">Sonnet</span>
             </div>
             <div class="metric-row">
                 <span class="metric-label">File đầu ra:</span>
@@ -438,11 +423,11 @@
             </div>
             <div class="metric-row">
                 <span class="metric-label">Số vòng soát lỗi:</span>
-                <span class="metric-value" id="detailCycles">1 / 2 Max</span>
+                <span class="metric-value" id="detailCycles">—</span>
             </div>
             <div class="metric-row">
                 <span class="metric-label">Trạng thái Gate:</span>
-                <span class="metric-value" style="color: var(--accent-cyan);" id="detailGate">Đang mở</span>
+                <span class="metric-value" style="color: var(--accent-cyan);" id="detailGate">—</span>
             </div>
         </div>
 
@@ -451,7 +436,15 @@
         </div>
         <div class="metric-row">
             <span class="metric-label">Độ hiện diện C-Brand DDV:</span>
-            <span class="metric-value" style="color: var(--accent-amber);">Trang 2 (Cần tối ưu)</span>
+            <span class="metric-value" style="color: var(--accent-amber);" id="presenceMetric">Chưa đo (cần Search Console)</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Case đang chạy:</span>
+            <span class="metric-value" id="activeCase">—</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Trạng thái case:</span>
+            <span class="metric-value" id="activeCaseState">—</span>
         </div>
         <div class="metric-row">
             <span class="metric-label">Đối thủ quét chính:</span>
@@ -500,7 +493,7 @@
                 color: 0x06b6d4, // Xanh Cyan
                 pos: { x: -8, y: 0, z: -5 },
                 status: 'working',
-                model: 'Claude 3.5 Sonnet',
+                model: 'Sonnet',
                 output: '02-research.md'
             },
             {
@@ -511,7 +504,7 @@
                 color: 0xf59e0b, // Vàng hổ phách
                 pos: { x: 8, y: 0, z: -5 },
                 status: 'reviewing',
-                model: 'Claude 3.7 Opus (Read-only)',
+                model: 'Opus (chỉ đọc)',
                 output: 'cham/*.md'
             },
             {
@@ -609,6 +602,10 @@
 
             // Bắt đầu vòng lặp Render
             animate();
+
+            // Đồng bộ trạng thái thật mỗi 60 giây
+            loadStatus();
+            setInterval(loadStatus, 60000);
         }
 
         // Tạo sàn công nghệ
@@ -822,16 +819,8 @@
             document.getElementById('detailOutput').innerText = targetAgent.output;
 
             const badge = document.getElementById('detailStatusBadge');
-            if (targetAgent.status === 'working') {
-                badge.innerText = 'ĐANG CHẠY';
-                badge.className = 'status-badge working';
-            } else if (targetAgent.status === 'reviewing') {
-                badge.innerText = 'ĐANG SOÁT LỖI';
-                badge.className = 'status-badge reviewing';
-            } else {
-                badge.innerText = 'CHỜ MỞ';
-                badge.className = 'status-badge standby';
-            }
+            badge.innerText = STATUS_LABEL[targetAgent.status] || targetAgent.status;
+            badge.className = 'status-badge ' + (targetAgent.status === 'working' ? 'working' : targetAgent.status === 'reviewing' || targetAgent.status === 'waiting' ? 'reviewing' : 'standby');
 
             // Di chuyển camera mượt mà tới agent
             const targetPos = targetAgent.pos;
@@ -868,22 +857,44 @@
             }
         }
 
-        function simulateNewTask() {
-            addLog('/cb-mkt', 'Nhận đề bài: "Campaign thúc đẩy Xiaomi Redmi Note 13 series cuối tháng".');
-            setTimeout(() => {
-                addLog('cb-research', 'Đang quét giá CellphoneS, TGDĐ và kiểm tra độ phủ Google DDV...');
-                pulseStation('research');
-            }, 1000);
-            setTimeout(() => {
-                addLog('cb-research', 'Hoàn tất xuất file: departments/cbrand-mkt/cases/02-research.md (CHỜ DUYỆT).');
-            }, 3000);
-            setTimeout(() => {
-                addLog('cb-review', 'Opus Gatekeeper tự động bật: Kiểm tra điều cấm "Không bịa số liệu".');
-                pulseStation('review');
-            }, 4500);
-            setTimeout(() => {
-                addLog('cb-review', 'KẾT QUẢ CHẤM: PASS cả 6 tiêu chí nội quy! Đã chuyển case sang WAITING_GATE1.');
-            }, 6500);
+        // Đọc trạng thái thật do lễ tân /cb-mkt ghi vào dashboard/status.json
+        let lastStatus = null;
+        const STATUS_LABEL = { working: 'ĐANG CHẠY', reviewing: 'ĐANG SOÁT LỖI', waiting: 'CHỜ MINAHN', standby: 'CHỜ MỞ', idle: 'RẢNH' };
+
+        async function loadStatus(manual) {
+            const sync = document.getElementById('syncState');
+            try {
+                const res = await fetch('dashboard/status.json?ts=' + Date.now(), { cache: 'no-store' });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const st = await res.json();
+                lastStatus = st;
+                // Trạng thái từng phòng
+                Object.entries(st.rooms || {}).forEach(([id, r]) => {
+                    if (!agents[id]) return;
+                    const before = agents[id].data.status;
+                    agents[id].data.status = r.status;
+                    if (r.model) agents[id].data.model = r.model;
+                    if (r.note) agents[id].data.role = r.note;
+                    if (before !== r.status && (r.status === 'working' || r.status === 'reviewing')) pulseStation(id);
+                });
+                // Case đang chạy
+                const c = st.active_case || {};
+                document.getElementById('activeCase').innerText = c.label || '—';
+                document.getElementById('activeCaseState').innerText = c.trang_thai ? (c.trang_thai + (c.buoc ? ' · ' + c.buoc : '')) : '—';
+                document.getElementById('detailCycles').innerText = c.vong || '—';
+                document.getElementById('detailGate').innerText = c.gate || '—';
+                if (st.presence) document.getElementById('presenceMetric').innerText = st.presence;
+                // Nhật ký
+                const list = document.getElementById('logList');
+                list.innerHTML = '';
+                (st.events || []).forEach(e => addLog(e.agent, e.msg, e.t));
+                sync.innerText = '● ĐỒNG BỘ ' + (st.updated_at || '').replace('T', ' ').slice(0, 16);
+                sync.style.color = 'var(--accent-green)';
+            } catch (err) {
+                sync.innerText = '● CHƯA ĐỌC ĐƯỢC TRẠNG THÁI';
+                sync.style.color = 'var(--accent-amber)';
+                if (manual) addLog('/cb-mkt', 'Không đọc được dashboard/status.json (' + err.message + ').');
+            }
         }
 
         function pulseStation(id) {
@@ -901,10 +912,10 @@
             }, 30);
         }
 
-        function addLog(agent, msg) {
+        function addLog(agent, msg, t) {
             const list = document.getElementById('logList');
-            const now = new Date();
-            const timeStr = `[${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}]`;
+            const d = t ? new Date(t) : new Date();
+            const timeStr = `[${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}]`;
 
             let agentClass = 'coordinator';
             if (agent.includes('research')) agentClass = 'research';
@@ -913,11 +924,10 @@
 
             const item = document.createElement('div');
             item.className = 'log-item';
-            item.innerHTML = `
-                <span class="log-time">${timeStr}</span>
-                <span class="log-agent ${agentClass}">[${agent}]</span>
-                <span>${msg}</span>
-            `;
+            const a = document.createElement('span'); a.className = 'log-time'; a.textContent = timeStr;
+            const b = document.createElement('span'); b.className = 'log-agent ' + agentClass; b.textContent = '[' + agent + ']';
+            const m = document.createElement('span'); m.textContent = msg;
+            item.append(a, ' ', b, ' ', m);
             list.appendChild(item);
             list.scrollTop = list.scrollHeight;
         }

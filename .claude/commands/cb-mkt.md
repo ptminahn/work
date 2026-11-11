@@ -50,7 +50,15 @@ Yêu cầu của Minahn: $ARGUMENTS
 4. Gọi lại phòng làm sửa file case theo "sai ở đâu | sửa thành gì", rồi chạy lại phòng Chấm (mục 3, bước 5–8).
 5. Báo Minahn: dòng luật đã thêm (trích nguyên văn, kèm file), kết quả chấm mới. Gợi ý: muốn chắc luật có tác dụng thì `/clear` rồi chạy lại case.
 
-## 5. Báo cáo cho Minahn khi dừng
+## 5. Đồng bộ dashboard 3D (GitHub Pages)
+
+Sau **mỗi** lần đổi trạng thái (gọi phòng, có kết quả chấm, dừng ở GATE/NEEDS_INPUT), cập nhật `dashboard/status.json` rồi commit + push thẳng `main`:
+- `rooms.<id>.status`: `working` (đang làm) · `reviewing` (đang chấm) · `waiting` (chờ Minahn) · `idle` (đang mở, rảnh) · `standby` (chưa mở). id: coordinator, research, review, sku, strategy, plan.
+- `active_case`: `label` (chung chung, vd "Campaign Xiaomi · cuối T11"), `trang_thai`, `buoc`, `vong`, `gate`.
+- `events`: thêm một dòng `{t, agent, msg}` (giờ +07:00), giữ tối đa 30 dòng gần nhất.
+- **File này công khai trên internet.** Chỉ ghi trạng thái. KHÔNG ghi giá, số liệu, tồn kho, ngân sách, tên SKU cụ thể, chiến lược, thông điệp, nội dung file case.
+
+## 6. Báo cáo cho Minahn khi dừng
 
 Ngắn, tiếng Việt, không rào đón:
 - Case `<case_id>` · trạng thái
