@@ -1,30 +1,95 @@
 {
   "_ghi_chu": "File công khai trên GitHub Pages. Chỉ ghi trạng thái. KHÔNG ghi giá, số liệu, SKU cụ thể, chiến lược, nội dung file case. Lễ tân /cb-mkt cập nhật sau mỗi bước.",
-  "updated_at": "2026-11-11T17:20:00+07:00",
+  "updated_at": "2026-11-11T17:35:00+07:00",
   "presence": "Chưa đo (cần Search Console)",
   "rooms": {
-    "coordinator": { "status": "working", "model": "phiên chính" },
-    "research":    { "status": "working", "model": "Sonnet" },
-    "review":      { "status": "standby", "model": "Opus (chỉ đọc)" },
-    "sku":         { "status": "standby", "model": "Sonnet (chưa mở)" },
-    "strategy":    { "status": "idle",    "model": "Sonnet (đang mở)" },
-    "plan":        { "status": "idle",    "model": "Sonnet (đang mở)" }
+    "coordinator": {
+      "status": "waiting",
+      "model": "phiên chính"
+    },
+    "research": {
+      "status": "idle",
+      "model": "Sonnet"
+    },
+    "review": {
+      "status": "idle",
+      "model": "Opus (chỉ đọc)"
+    },
+    "sku": {
+      "status": "standby",
+      "model": "Sonnet (chưa mở)"
+    },
+    "strategy": {
+      "status": "idle",
+      "model": "Sonnet (đang mở)"
+    },
+    "plan": {
+      "status": "idle",
+      "model": "Sonnet (đang mở)"
+    }
   },
   "active_case": {
     "label": "Campaign Xiaomi · cuối T11",
-    "trang_thai": "RETURNED",
-    "buoc": "02-research",
-    "vong": "Sửa lần 2 / tối đa 2",
-    "gate": "Chưa tới GATE 1"
+    "trang_thai": "NEEDS_INPUT",
+    "buoc": "Trước Bước 3",
+    "vong": "Research PASS vòng 3",
+    "gate": "Chờ Minahn: quyết định SKU"
   },
   "events": [
-    { "t": "2026-11-11T16:40:00+07:00", "agent": "/cb-mkt", "msg": "Mở case campaign Xiaomi (Full Auto-Run). Mở phòng Chiến lược, Kế hoạch." },
-    { "t": "2026-11-11T16:45:00+07:00", "agent": "cb-research", "msg": "Lần 1: bị chặn mạng, 0/4 site mở được → NEEDS_INPUT." },
-    { "t": "2026-11-11T16:50:00+07:00", "agent": "/cb-mkt", "msg": "Mở mạng cho 5 site bán lẻ; 3/5 truy cập được." },
-    { "t": "2026-11-11T16:56:00+07:00", "agent": "cb-research", "msg": "Giao 02-research.md (17 trang đã đọc)." },
-    { "t": "2026-11-11T16:58:00+07:00", "agent": "cb-review", "msg": "Chấm vòng 1: TRA_VE, 10 lỗi (kết luận vượt bằng chứng)." },
-    { "t": "2026-11-11T17:02:00+07:00", "agent": "cb-research", "msg": "Sửa vòng 1 xong." },
-    { "t": "2026-11-11T17:10:00+07:00", "agent": "cb-review", "msg": "Chấm vòng 2: TRA_VE, còn 2 lỗi nhỏ." },
-    { "t": "2026-11-11T17:20:00+07:00", "agent": "cb-research", "msg": "Đang sửa lần 2 (lượt sửa cuối)." }
+    {
+      "t": "2026-11-11T16:40:00+07:00",
+      "agent": "/cb-mkt",
+      "msg": "Mở case campaign Xiaomi (Full Auto-Run). Mở phòng Chiến lược, Kế hoạch."
+    },
+    {
+      "t": "2026-11-11T16:45:00+07:00",
+      "agent": "cb-research",
+      "msg": "Lần 1: bị chặn mạng, 0/4 site mở được → NEEDS_INPUT."
+    },
+    {
+      "t": "2026-11-11T16:50:00+07:00",
+      "agent": "/cb-mkt",
+      "msg": "Mở mạng cho 5 site bán lẻ; 3/5 truy cập được."
+    },
+    {
+      "t": "2026-11-11T16:56:00+07:00",
+      "agent": "cb-research",
+      "msg": "Giao 02-research.md (17 trang đã đọc)."
+    },
+    {
+      "t": "2026-11-11T16:58:00+07:00",
+      "agent": "cb-review",
+      "msg": "Chấm vòng 1: TRA_VE, 10 lỗi (kết luận vượt bằng chứng)."
+    },
+    {
+      "t": "2026-11-11T17:02:00+07:00",
+      "agent": "cb-research",
+      "msg": "Sửa vòng 1 xong."
+    },
+    {
+      "t": "2026-11-11T17:10:00+07:00",
+      "agent": "cb-review",
+      "msg": "Chấm vòng 2: TRA_VE, còn 2 lỗi nhỏ."
+    },
+    {
+      "t": "2026-11-11T17:20:00+07:00",
+      "agent": "cb-research",
+      "msg": "Đang sửa lần 2 (lượt sửa cuối)."
+    },
+    {
+      "t": "2026-11-11T17:28:00+07:00",
+      "agent": "cb-research",
+      "msg": "Sửa lần 2 xong."
+    },
+    {
+      "t": "2026-11-11T17:32:00+07:00",
+      "agent": "cb-review",
+      "msg": "Chấm vòng 3: PASS."
+    },
+    {
+      "t": "2026-11-11T17:35:00+07:00",
+      "agent": "/cb-mkt",
+      "msg": "Dừng trước Bước 3: thiếu dữ liệu bắt buộc, chờ Minahn quyết định SKU."
+    }
   ]
 }
