@@ -7,3 +7,4 @@ departments/cbrand-mkt/cases/*
 # File sinh ra bởi scripts/router.py
 scripts/tasks.json
 scripts/routing_log.json
+.preview/
