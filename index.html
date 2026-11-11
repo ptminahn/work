@@ -361,6 +361,25 @@
             pointer-events: none;
             z-index: 5;
         }
+        #btn-detail { display: none; }
+
+        /* ===== Điện thoại / màn hình nhỏ ===== */
+        @media (max-width: 768px) {
+            .hud-top { top: 10px; left: 10px; right: 10px; flex-direction: column; align-items: stretch; gap: 8px; }
+            .hud-brand { padding: 8px 12px; gap: 10px; border-radius: 10px; }
+            .hud-brand h1 { font-size: 14px; line-height: 1.25; margin: 0; }
+            .hud-brand div > span { display: none; }
+            .ddv-badge { font-size: 10px !important; padding: 3px 6px !important; white-space: nowrap; }
+            .hud-controls-top { pointer-events: auto; display: flex; gap: 6px; overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+            .hud-btn { padding: 8px 10px; font-size: 12px; white-space: nowrap; flex: 0 0 auto; }
+            #btn-detail { display: flex; }
+            .hud-sidebar-right { display: none; top: auto; bottom: calc(32vh + 20px); left: 10px; right: 10px; width: auto; max-height: 46vh; overflow-y: auto; padding: 14px; }
+            body.show-detail .hud-sidebar-right { display: block; }
+            .hud-bottom-logs { left: 10px; right: 10px; bottom: 10px; width: auto; max-height: 32vh; }
+            .log-header { font-size: 10px; gap: 8px; }
+            .log-list { max-height: calc(32vh - 46px); font-size: 10.5px; padding: 8px 12px; }
+            .camera-hint { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -379,6 +398,9 @@
         <div class="hud-controls-top">
             <button class="hud-btn" id="btn-trigger-task" onclick="replayCase()">
                 <i class="fa-solid fa-play"></i> Mô Phỏng Case
+            </button>
+            <button class="hud-btn" id="btn-detail" onclick="document.body.classList.toggle('show-detail')">
+                <i class="fa-solid fa-circle-info"></i> Chi Tiết
             </button>
             <button class="hud-btn" onclick="loadStatus(true)">
                 <i class="fa-solid fa-rotate"></i> Tải Lại Trạng Thái
@@ -816,6 +838,7 @@
             const targetAgent = agents[id].data;
 
             // Cập nhật chi tiết HUD bên phải
+            if (window.innerWidth <= 768 && !replaying) document.body.classList.add('show-detail');
             document.getElementById('detailAgentName').innerText = targetAgent.name + ' (' + targetAgent.code + ')';
             document.getElementById('detailRole').innerText = targetAgent.role;
             document.getElementById('detailModel').innerText = targetAgent.model;
