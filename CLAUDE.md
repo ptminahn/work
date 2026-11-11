@@ -65,3 +65,4 @@ File này là nội quy chung cho mọi AI trong đội. Đọc kỹ trước kh
 
 - (Thêm 2026-11-11) Bắt đầu nội quy theo khung 6 phần của Tập 3.
 - (Thêm 2026-11-11) Git: commit và push thẳng vào nhánh `main` của repo này, không tạo nhánh riêng, không mở pull request.
+- (Thêm 2026-11-11) Việc dựng và sửa đội AI trong repo này (sửa file, thêm phòng, thêm luật, commit, push, dọn nhánh): tự triển khai, không cần hỏi Minahn trước; làm xong báo lại. Mục 5 và mục 6 vẫn giữ nguyên: gửi ra ngoài, thao tác Lark, Ads, website, số liệu không nguồn vẫn phải hỏi.
