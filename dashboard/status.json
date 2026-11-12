@@ -1,14 +1,14 @@
 {
   "_ghi_chu": "File công khai trên GitHub Pages. Chỉ ghi trạng thái. KHÔNG ghi giá, số liệu, SKU cụ thể, chiến lược, nội dung file case. Lễ tân /cb-mkt cập nhật sau mỗi bước.",
-  "updated_at": "2026-11-11T17:35:00+07:00",
+  "updated_at": "2026-11-12T14:20:00+07:00",
   "presence": "Chưa đo (cần Search Console)",
   "rooms": {
     "coordinator": {
-      "status": "waiting",
+      "status": "working",
       "model": "phiên chính"
     },
     "research": {
-      "status": "idle",
+      "status": "working",
       "model": "Sonnet"
     },
     "review": {
@@ -29,11 +29,11 @@
     }
   },
   "active_case": {
-    "label": "Campaign Xiaomi · cuối T11",
-    "trang_thai": "NEEDS_INPUT",
-    "buoc": "Trước Bước 3",
-    "vong": "Research PASS vòng 3",
-    "gate": "Chờ Minahn: quyết định SKU"
+    "label": "Chiến lược C-Brand cuối năm",
+    "trang_thai": "IN_PROGRESS",
+    "buoc": "02-research (3 nhánh)",
+    "vong": "Vòng 1",
+    "gate": "Chưa tới GATE 1"
   },
   "events": [
     {
@@ -90,6 +90,11 @@
       "t": "2026-11-11T17:35:00+07:00",
       "agent": "/cb-mkt",
       "msg": "Dừng trước Bước 3: thiếu dữ liệu bắt buộc, chờ Minahn quyết định SKU."
+    },
+    {
+      "t": "2026-11-12T14:20:00+07:00",
+      "agent": "/cb-mkt",
+      "msg": "Mở case mới: chiến lược C-Brand cuối năm. Research chia 3 nhánh: thị trường, kênh phân phối, DDV."
     }
   ]
 }
