@@ -1,10 +1,10 @@
 {
   "_ghi_chu": "File công khai trên GitHub Pages. Chỉ ghi trạng thái. KHÔNG ghi giá, số liệu, SKU cụ thể, chiến lược, nội dung file case. Lễ tân /cb-mkt cập nhật sau mỗi bước.",
-  "updated_at": "2026-11-12T19:10:00+07:00",
+  "updated_at": "2026-11-12T20:30:00+07:00",
   "presence": "Chưa đo (cần Search Console)",
   "rooms": {
     "coordinator": {
-      "status": "working",
+      "status": "waiting",
       "model": "phiên chính"
     },
     "research": {
@@ -20,7 +20,7 @@
       "model": "Sonnet (chưa mở)"
     },
     "strategy": {
-      "status": "working",
+      "status": "idle",
       "model": "Sonnet (đang mở)"
     },
     "plan": {
@@ -30,27 +30,12 @@
   },
   "active_case": {
     "label": "Chiến lược C-Brand cuối năm",
-    "trang_thai": "IN_PROGRESS",
-    "buoc": "Cập nhật 03 theo số nội bộ",
-    "vong": "02d PASS vòng 2",
-    "gate": "Chưa tới GATE 1"
+    "trang_thai": "WAITING_GATE1",
+    "buoc": "Trọn bộ hồ sơ (có số nội bộ)",
+    "vong": "03 PASS v6 · 05 PASS v5",
+    "gate": "Chờ Minahn duyệt GATE 1"
   },
   "events": [
-    {
-      "t": "2026-11-11T17:20:00+07:00",
-      "agent": "cb-research",
-      "msg": "Đang sửa lần 2 (lượt sửa cuối)."
-    },
-    {
-      "t": "2026-11-11T17:28:00+07:00",
-      "agent": "cb-research",
-      "msg": "Sửa lần 2 xong."
-    },
-    {
-      "t": "2026-11-11T17:32:00+07:00",
-      "agent": "cb-review",
-      "msg": "Chấm vòng 3: PASS."
-    },
     {
       "t": "2026-11-11T17:35:00+07:00",
       "agent": "/cb-mkt",
@@ -185,6 +170,21 @@
       "t": "2026-11-12T19:10:00+07:00",
       "agent": "cb-strategy",
       "msg": "Cập nhật chiến lược theo số nội bộ."
+    },
+    {
+      "t": "2026-11-12T19:50:00+07:00",
+      "agent": "cb-review",
+      "msg": "Chiến lược cập nhật: PASS vòng 6."
+    },
+    {
+      "t": "2026-11-12T20:25:00+07:00",
+      "agent": "cb-review",
+      "msg": "Kế hoạch cập nhật: PASS vòng 5; kiểm tra chéo hồ sơ nhất quán."
+    },
+    {
+      "t": "2026-11-12T20:30:00+07:00",
+      "agent": "/cb-mkt",
+      "msg": "Hồ sơ cập nhật theo số nội bộ, chờ Minahn duyệt GATE 1."
     }
   ]
 }
