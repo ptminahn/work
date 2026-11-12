@@ -1,10 +1,10 @@
 {
   "_ghi_chu": "File công khai trên GitHub Pages. Chỉ ghi trạng thái. KHÔNG ghi giá, số liệu, SKU cụ thể, chiến lược, nội dung file case. Lễ tân /cb-mkt cập nhật sau mỗi bước.",
-  "updated_at": "2026-11-12T16:42:00+07:00",
+  "updated_at": "2026-11-12T17:30:00+07:00",
   "presence": "Chưa đo (cần Search Console)",
   "rooms": {
     "coordinator": {
-      "status": "working",
+      "status": "waiting",
       "model": "phiên chính"
     },
     "research": {
@@ -24,33 +24,18 @@
       "model": "Sonnet (đang mở)"
     },
     "plan": {
-      "status": "working",
+      "status": "idle",
       "model": "Sonnet (đang mở)"
     }
   },
   "active_case": {
     "label": "Chiến lược C-Brand cuối năm",
-    "trang_thai": "IN_PROGRESS",
-    "buoc": "05-plan",
-    "vong": "Chiến lược xong (còn 3 lỗi nhỏ)",
-    "gate": "Chưa tới GATE 1"
+    "trang_thai": "WAITING_GATE1",
+    "buoc": "Trọn bộ hồ sơ",
+    "vong": "Kế hoạch PASS vòng 3",
+    "gate": "Chờ Minahn duyệt GATE 1"
   },
   "events": [
-    {
-      "t": "2026-11-11T16:40:00+07:00",
-      "agent": "/cb-mkt",
-      "msg": "Mở case campaign Xiaomi (Full Auto-Run). Mở phòng Chiến lược, Kế hoạch."
-    },
-    {
-      "t": "2026-11-11T16:45:00+07:00",
-      "agent": "cb-research",
-      "msg": "Lần 1: bị chặn mạng, 0/4 site mở được → NEEDS_INPUT."
-    },
-    {
-      "t": "2026-11-11T16:50:00+07:00",
-      "agent": "/cb-mkt",
-      "msg": "Mở mạng cho 5 site bán lẻ; 3/5 truy cập được."
-    },
     {
       "t": "2026-11-11T16:56:00+07:00",
       "agent": "cb-research",
@@ -180,6 +165,26 @@
       "t": "2026-11-12T16:42:00+07:00",
       "agent": "cb-plan",
       "msg": "Bắt đầu lập kế hoạch triển khai."
+    },
+    {
+      "t": "2026-11-12T17:00:00+07:00",
+      "agent": "cb-plan",
+      "msg": "Giao 05-plan.md."
+    },
+    {
+      "t": "2026-11-12T17:10:00+07:00",
+      "agent": "cb-review",
+      "msg": "Chấm Kế hoạch vòng 1–2: TRA_VE (lịch đo, mốc ngày)."
+    },
+    {
+      "t": "2026-11-12T17:28:00+07:00",
+      "agent": "cb-review",
+      "msg": "Chấm Kế hoạch vòng 3: PASS; kiểm tra chéo toàn hồ sơ nhất quán."
+    },
+    {
+      "t": "2026-11-12T17:30:00+07:00",
+      "agent": "/cb-mkt",
+      "msg": "Trọn bộ hồ sơ hoàn tất, chờ Minahn duyệt GATE 1."
     }
   ]
 }
