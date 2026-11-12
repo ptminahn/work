@@ -1,6 +1,6 @@
 {
   "_ghi_chu": "File công khai trên GitHub Pages. Chỉ ghi trạng thái. KHÔNG ghi giá, số liệu, SKU cụ thể, chiến lược, nội dung file case. Lễ tân /cb-mkt cập nhật sau mỗi bước.",
-  "updated_at": "2026-11-12T14:20:00+07:00",
+  "updated_at": "2026-11-12T14:45:00+07:00",
   "presence": "Chưa đo (cần Search Console)",
   "rooms": {
     "coordinator": {
@@ -30,8 +30,8 @@
   },
   "active_case": {
     "label": "Chiến lược C-Brand cuối năm",
-    "trang_thai": "IN_PROGRESS",
-    "buoc": "02-research (3 nhánh)",
+    "trang_thai": "RETURNED",
+    "buoc": "02-research (A, B đang sửa; C đang làm)",
     "vong": "Vòng 1",
     "gate": "Chưa tới GATE 1"
   },
@@ -95,6 +95,31 @@
       "t": "2026-11-12T14:20:00+07:00",
       "agent": "/cb-mkt",
       "msg": "Mở case mới: chiến lược C-Brand cuối năm. Research chia 3 nhánh: thị trường, kênh phân phối, DDV."
+    },
+    {
+      "t": "2026-11-12T14:33:00+07:00",
+      "agent": "cb-research",
+      "msg": "Nhánh A (thị trường) giao file."
+    },
+    {
+      "t": "2026-11-12T14:36:00+07:00",
+      "agent": "cb-review",
+      "msg": "Chấm nhánh A vòng 1: TRA_VE, 9 lỗi (số chưa xác minh lọt vào kết luận)."
+    },
+    {
+      "t": "2026-11-12T14:38:00+07:00",
+      "agent": "cb-research",
+      "msg": "Nhánh B (kênh phân phối) giao file."
+    },
+    {
+      "t": "2026-11-12T14:44:00+07:00",
+      "agent": "cb-review",
+      "msg": "Chấm nhánh B vòng 1: TRA_VE, 8 lỗi (2 thông tin không nguồn)."
+    },
+    {
+      "t": "2026-11-12T14:45:00+07:00",
+      "agent": "cb-research",
+      "msg": "Đang sửa nhánh A, B; nhánh C (DDV) đang nghiên cứu."
     }
   ]
 }
