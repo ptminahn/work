@@ -1,6 +1,6 @@
 {
   "_ghi_chu": "File công khai trên GitHub Pages. Chỉ ghi trạng thái. KHÔNG ghi giá, số liệu, SKU cụ thể, chiến lược, nội dung file case. Lễ tân /cb-mkt cập nhật sau mỗi bước.",
-  "updated_at": "2026-11-12T15:20:00+07:00",
+  "updated_at": "2026-11-12T15:47:00+07:00",
   "presence": "Chưa đo (cần Search Console)",
   "rooms": {
     "coordinator": {
@@ -8,7 +8,7 @@
       "model": "phiên chính"
     },
     "research": {
-      "status": "working",
+      "status": "idle",
       "model": "Sonnet"
     },
     "review": {
@@ -20,7 +20,7 @@
       "model": "Sonnet (chưa mở)"
     },
     "strategy": {
-      "status": "idle",
+      "status": "working",
       "model": "Sonnet (đang mở)"
     },
     "plan": {
@@ -31,8 +31,8 @@
   "active_case": {
     "label": "Chiến lược C-Brand cuối năm",
     "trang_thai": "IN_PROGRESS",
-    "buoc": "02-research (A, B PASS; C đang sửa)",
-    "vong": "A, B PASS vòng 3",
+    "buoc": "03-chien-luoc",
+    "vong": "Research xong (A, B PASS; C còn 1 lỗi nhỏ)",
     "gate": "Chưa tới GATE 1"
   },
   "events": [
@@ -145,6 +145,16 @@
       "t": "2026-11-12T15:20:00+07:00",
       "agent": "cb-review",
       "msg": "Nhánh B (kênh phân phối): PASS vòng 3."
+    },
+    {
+      "t": "2026-11-12T15:44:00+07:00",
+      "agent": "cb-review",
+      "msg": "Nhánh C vòng 3: còn 1 lỗi đếm nguồn, hết lượt sửa."
+    },
+    {
+      "t": "2026-11-12T15:47:00+07:00",
+      "agent": "cb-strategy",
+      "msg": "Bắt đầu phân tích tình hình và chiến lược cuối năm."
     }
   ]
 }
