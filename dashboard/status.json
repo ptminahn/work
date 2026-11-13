@@ -1,10 +1,10 @@
 {
   "_ghi_chu": "File công khai trên GitHub Pages. Chỉ ghi trạng thái. KHÔNG ghi giá, số liệu, SKU cụ thể, chiến lược, nội dung file case. Lễ tân /cb-mkt cập nhật sau mỗi bước.",
-  "updated_at": "2026-11-12T20:30:00+07:00",
+  "updated_at": "2026-11-13T09:00:00+07:00",
   "presence": "Chưa đo (cần Search Console)",
   "rooms": {
     "coordinator": {
-      "status": "waiting",
+      "status": "idle",
       "model": "phiên chính"
     },
     "research": {
@@ -30,17 +30,12 @@
   },
   "active_case": {
     "label": "Chiến lược C-Brand cuối năm",
-    "trang_thai": "WAITING_GATE1",
-    "buoc": "Trọn bộ hồ sơ (có số nội bộ)",
+    "trang_thai": "APPROVED",
+    "buoc": "Triển khai theo kế hoạch",
     "vong": "03 PASS v6 · 05 PASS v5",
-    "gate": "Chờ Minahn duyệt GATE 1"
+    "gate": "GATE 1 đã duyệt; GATE 2 theo từng hạng mục"
   },
   "events": [
-    {
-      "t": "2026-11-11T17:35:00+07:00",
-      "agent": "/cb-mkt",
-      "msg": "Dừng trước Bước 3: thiếu dữ liệu bắt buộc, chờ Minahn quyết định SKU."
-    },
     {
       "t": "2026-11-12T14:20:00+07:00",
       "agent": "/cb-mkt",
@@ -185,6 +180,11 @@
       "t": "2026-11-12T20:30:00+07:00",
       "agent": "/cb-mkt",
       "msg": "Hồ sơ cập nhật theo số nội bộ, chờ Minahn duyệt GATE 1."
+    },
+    {
+      "t": "2026-11-13T09:00:00+07:00",
+      "agent": "/cb-mkt",
+      "msg": "Minahn duyệt GATE 1 hồ sơ chiến lược C-Brand cuối năm."
     }
   ]
 }
